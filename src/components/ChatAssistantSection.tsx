@@ -1,9 +1,43 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, BookOpen, ShieldCheck, Activity, Stethoscope, Info } from 'lucide-react';
+import { Send, User, Bot, Activity, Info, FlameKindling } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Markdown from 'react-markdown';
 import { cn } from '../lib/utils';
 import { getChatResponse } from '../services/openaiService';
+
+// LISTA DE 30 DICAS TÉCNICAS DA DRA. MARIA YVONE
+const DICAS_DA_DOUTORA = [
+  "Ao movimentar pacientes, use a força das pernas e mantenha o eixo da coluna preservado.",
+  "A NR-32 é sua maior aliada na proteção contra riscos biológicos. Use o EPI sempre!",
+  "Pausas ativas de 5 minutos a cada hora reduzem drasticamente o risco de LER/DORT.",
+  "A ergonomia não é apenas sobre móveis, é sobre como você adapta o trabalho ao seu corpo.",
+  "Lave as mãos antes e depois de cada procedimento. O cuidado começa na higienização.",
+  "Mantenha os objetos de uso frequente ao alcance das mãos para evitar torções de tronco.",
+  "O uso correto de calçados fechados na enfermagem não é estética, é segurança biomecânica.",
+  "Respeite os limites do seu corpo; a fadiga muscular é o primeiro sinal de alerta.",
+  "Ao usar computadores, mantenha o topo da tela na altura dos seus olhos.",
+  "A hidratação constante ajuda na manutenção da sua concentração e saúde muscular.",
+  "O descarte correto de perfurocortantes protege você e toda a equipe de apoio.",
+  "Organize seu carrinho de medicação de forma que você não precise se curvar repetidamente.",
+  "Flexione os joelhos, nunca a coluna, ao pegar um objeto pesado no chão.",
+  "A biossegurança é um ato de amor próprio e de respeito ao próximo.",
+  "Ajuste a altura da maca do paciente antes de realizar qualquer procedimento técnico.",
+  "Evite movimentos repetitivos bruscos; a suavidade na execução protege suas articulações.",
+  "O ambiente de trabalho limpo reduz o estresse mental e o risco de acidentes.",
+  "Utilize dispositivos auxiliares (como lençóis móveis) para transferir pacientes pesados.",
+  "Mantenha seus punhos em posição neutra (reta) sempre que possível durante o dia.",
+  "A ventilação do ambiente é fundamental para a saúde respiratória do profissional.",
+  "A postura sentada exige que seus pés estejam totalmente apoiados no chão ou suporte.",
+  "Relate sempre qualquer desconforto osteomuscular ao SESMT da sua unidade.",
+  "O descanso entre plantões é parte fundamental da sua performance técnica.",
+  "A iluminação adequada previne a fadiga visual e erros de dosagem em medicações.",
+  "Use a técnica de 'braços de alavanca' curtos ao segurar equipamentos pesados.",
+  "Rotacionar as tarefas durante o plantão ajuda a evitar a sobrecarga de grupos musculares específicos.",
+  "Sua saúde mental influencia diretamente na sua percepção de dor física. Cuide-se.",
+  "A NR-17 ensina: o trabalho deve ser adaptado ao homem, e não o contrário.",
+  "Mantenha os ombros relaxados e para baixo enquanto digita ou realiza curativos.",
+  "Conhecimento técnico e postura correta são as ferramentas mais fortes de um enfermeiro."
+];
 
 export default function ChatAssistantSection() {
   const [messages, setMessages] = useState([
@@ -17,12 +51,19 @@ export default function ChatAssistantSection() {
 
   const [history, setHistory] = useState<{ role: "user" | "assistant"; content: string }[]>([]);
   const [input, setInput] = useState('');
-  const [isTyping, setIsTyping] = useState(false); // ESTADO PARA AS RETICÊNCIAS
+  const [isTyping, setIsTyping] = useState(false);
+  const [dicaAtual, setDicaAtual] = useState(""); // Estado para a dica
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  // Sorteia uma dica nova toda vez que o componente carrega
+  useEffect(() => {
+    const sorteio = DICAS_DA_DOUTORA[Math.floor(Math.random() * DICAS_DA_DOUTORA.length)];
+    setDicaAtual(sorteio);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]); // Rola o scroll se ela estiver pensando também
+  }, [messages, isTyping]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -37,7 +78,7 @@ export default function ChatAssistantSection() {
 
     setMessages(prev => [...prev, userMsg]);
     setInput('');
-    setIsTyping(true); // LIGA AS RETICÊNCIAS
+    setIsTyping(true);
 
     try {
       const response = await getChatResponse(userText, history);
@@ -51,14 +92,13 @@ export default function ChatAssistantSection() {
 
       setMessages(prev => [...prev, assistantMsg]);
       
-      // Atualiza o histórico para a OpenAI
       setHistory(prev => [
         ...prev,
         { role: "user", content: userText },
         { role: "assistant", content: response }
       ]);
     } finally {
-      setIsTyping(false); // DESLIGA AS RETICÊNCIAS
+      setIsTyping(false);
     }
   };
 
@@ -75,50 +115,46 @@ export default function ChatAssistantSection() {
 
           {/* SIDEBAR */}
           <aside className="lg:w-80 space-y-6">
-            <div className="bg-white p-8 border border-[#98FB98]/30 rounded-[3rem] shadow-[0_10px_30px_rgba(0,0,0,0.03)]">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="bg-black p-2 rounded-xl">
-                  <Stethoscope className="text-[#98FB98] w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-slate-800 uppercase tracking-tighter">
-                  Maria Yvone
-                </h3>
-              </div>
-              <nav className="space-y-6">
-                <div>
-                  <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-4">
-                    Normas Diretas
-                  </p>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#F2F4F5] transition-colors cursor-pointer border border-transparent hover:border-black/5">
-                      <BookOpen size={18} className="text-black" />
-                      <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">NR-17</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#F2F4F5] transition-colors cursor-pointer border border-transparent hover:border-black/5">
-                      <ShieldCheck size={18} className="text-black" />
-                      <span className="text-xs font-bold text-slate-600 uppercase tracking-widest">NR-32</span>
-                    </div>
+            <div className="bg-white border border-[#98FB98]/30 rounded-[3rem] shadow-[0_10px_30px_rgba(0,0,0,0.03)] relative overflow-hidden h-[30rem] flex flex-col justify-end">
+              <div 
+                className="absolute inset-0 z-0 bg-cover bg-center"
+                style={{ 
+                  backgroundImage: "url('/maria_yvone.png')", 
+                  opacity: 0.35,
+                }}
+              />
+              <div className="relative z-10 p-8 bg-gradient-to-t from-white via-white/80 to-transparent pt-12">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="bg-black p-2.5 rounded-xl">
+                    <FlameKindling className="text-[#98FB98] w-6 h-6" />
                   </div>
+                  <h3 className="text-xl font-bold text-slate-800 uppercase tracking-tighter">
+                    Maria Yvone
+                  </h3>
                 </div>
-              </nav>
+                <p className="text-[11px] leading-relaxed text-slate-600 font-bold uppercase tracking-widest">
+                  Inspiradora da Jornada
+                </p>
+              </div>
             </div>
 
+            {/* CAIXA DE DICA DINÂMICA */}
             <div className="bg-[#D9EAE6] p-6 rounded-[3rem] border border-[#98FB98]/30 relative overflow-hidden">
               <div className="relative z-10">
-                <p className="text-[10px] font-bold text-[#4A7C71] uppercase tracking-widest mb-2">Dica do Dia</p>
+                <p className="text-[10px] font-bold text-[#4A7C71] uppercase tracking-widest mb-2">Dica da Doutora</p>
                 <p className="text-xs leading-relaxed text-[#2D4F48] font-medium italic">
-                  "Ao movimentar pacientes, use a força das pernas e mantenha o eixo da coluna preservado."
+                  "{dicaAtual}"
                 </p>
               </div>
               <Activity className="absolute -bottom-2 -right-2 w-16 h-16 text-[#4A7C71]/10" />
             </div>
           </aside>
 
-          {/* CHAT */}
+          {/* CHAT CONTAINER */}
           <div className="flex-1 flex flex-col bg-white border border-[#98FB98]/30 rounded-[3rem] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)]" style={{ height: '700px' }}>
             <header className="p-6 border-b border-black/[0.03] flex items-center justify-between">
               <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-black/40">
-                Consultoria Virtual Dra. Maria Yvone
+                Consultoria Virtual
               </span>
               <Info size={16} className="text-black/20" />
             </header>
@@ -143,7 +179,6 @@ export default function ChatAssistantSection() {
                   </motion.div>
                 ))}
 
-                {/* ANIMAÇÃO DE PENSANDO (RETICÊNCIAS) */}
                 {isTyping && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -166,7 +201,6 @@ export default function ChatAssistantSection() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* INPUT */}
             <div className="p-8 bg-white border-t border-black/[0.03]">
               <div className="flex flex-wrap gap-2 mb-6">
                 {quickActions.map(action => (

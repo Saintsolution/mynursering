@@ -2,12 +2,12 @@ import { ExternalLink, BookOpen, ShieldCheck, Scale, FileText, Briefcase, AlertT
 
 export default function ResourcesSection() {
   const resources = [
-    { title: 'NR-17 - Ergonomia', icon: <BookOpen />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/inspecao-do-trabalho/seguranca-e-saude-no-trabalho/normas-regulamentadoras/nr-17.pdf' },
-    { title: 'NR-32 - Saúde em Serviços', icon: <ShieldCheck />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/inspecao-do-trabalho/seguranca-e-saude-no-trabalho/normas-regulamentadoras/nr-32-atualizada-2020.pdf' },
+    { title: 'NR-17 - Ergonomia', icon: <BookOpen />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-17-nr-17' },
+    { title: 'NR-32 - Saúde em Serviços', icon: <ShieldCheck />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-32-nr-32' },
     { title: 'CLT - Leis do Trabalho', icon: <Scale />, url: 'https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm' },
-    { title: 'NR-06 - EPI', icon: <AlertTriangle />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/inspecao-do-trabalho/seguranca-e-saude-no-trabalho/normas-regulamentadoras/nr-06-atualizada-2020.pdf' },
-    { title: 'NR-09 - Riscos', icon: <FileText />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/inspecao-do-trabalho/seguranca-e-saude-no-trabalho/normas-regulamentadoras/nr-09-atualizada-2020.pdf' },
-    { title: 'NR-07 - PCMSO', icon: <Briefcase />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/inspecao-do-trabalho/seguranca-e-saude-no-trabalho/normas-regulamentadoras/nr-07-atualizada-2020.pdf' }
+    { title: 'NR-06 - EPI', icon: <AlertTriangle />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-6-nr-6' },
+    { title: 'NR-09 - Riscos', icon: <FileText />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-9-nr-9' },
+    { title: 'NR-07 - PCMSO', icon: <Briefcase />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-7-nr-7' }
   ];
 
   return (
