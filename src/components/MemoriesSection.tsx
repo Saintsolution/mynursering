@@ -32,8 +32,8 @@ export default function MemoriesSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {photos.map((photo) => {
             // Estilos estáticos para evitar erros de TypeScript no VS Code
-            const containerClass = "relative aspect-[3/4] overflow-hidden bg-slate-100 group border border-black/5 shadow-sm";
-            const imgClass = "w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000";
+            const containerClass = "relative aspect-[3/4] overflow-hidden bg-slate-100 group border border-black/5 shadow-md rounded-3xl";
+const imgClass = "w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700";
             const overlayClass = "absolute inset-0 flex items-end p-4 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500";
             const textClass = "text-[10px] text-white font-light tracking-[0.2em] uppercase leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,1)]";
 
