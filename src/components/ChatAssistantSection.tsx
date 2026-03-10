@@ -158,16 +158,16 @@ export default function ChatAssistantSection() {
             </div>
           </aside>
 
-          {/* AREA CORRIGIDA: Adicionado flex-1 e min-h-full para forçar o crescimento */}
-          <div className="flex-1 flex flex-col bg-white border border-[#98FB98]/30 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] h-[85vh] md:h-[700px] mx-1 md:mx-0">
-            <header className="p-5 md:p-6 border-b border-black/[0.03] flex items-center justify-between bg-white/50 backdrop-blur-sm shrink-0">
+          {/* AJUSTE MOBILE: min-h-[500px] e h-[80vh] garantem que o container não achate */}
+          <div className="flex-1 flex flex-col bg-white border border-[#98FB98]/30 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] min-h-[500px] h-[80vh] md:h-[700px] mx-1 md:mx-0">
+            <header className="p-5 md:p-6 border-b border-black/[0.03] flex items-center justify-between bg-white shrink-0">
               <span className="text-[9px] md:text-[10px] font-bold tracking-[0.4em] uppercase text-black/40">Consultoria Virtual</span>
               <Info size={16} className="text-black/20" />
             </header>
 
-            {/* AREA DE MENSAGENS: Agora com min-h-full e flex-grow */}
-            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 bg-[#FCFDFD] scroll-smooth">
-              <div className="flex flex-col gap-6 min-h-full">
+            {/* O SEGREDO: flex-grow + h-0 força o scroll a funcionar em containers flex */}
+            <div className="flex-grow h-0 overflow-y-auto p-4 md:p-8 space-y-6 bg-[#FCFDFD] scroll-smooth">
+              <div className="flex flex-col gap-6">
                 <AnimatePresence>
                   {messages.map((m) => (
                     <motion.div
