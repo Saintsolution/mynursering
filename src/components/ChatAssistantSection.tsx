@@ -73,7 +73,6 @@ export default function ChatAssistantSection() {
     setDicaAtual(sorteio);
   }, []);
 
-  // Lógica de Scroll Inteligente: Foca no topo da nova mensagem da assistente
   useEffect(() => {
     if (messages.length > 1) {
       const lastMessage = messages[messages.length - 1];
@@ -159,58 +158,62 @@ export default function ChatAssistantSection() {
             </div>
           </aside>
 
+          {/* AREA CORRIGIDA: Adicionado flex-1 e min-h-full para forçar o crescimento */}
           <div className="flex-1 flex flex-col bg-white border border-[#98FB98]/30 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] h-[85vh] md:h-[700px] mx-1 md:mx-0">
-            <header className="p-5 md:p-6 border-b border-black/[0.03] flex items-center justify-between bg-white/50 backdrop-blur-sm">
+            <header className="p-5 md:p-6 border-b border-black/[0.03] flex items-center justify-between bg-white/50 backdrop-blur-sm shrink-0">
               <span className="text-[9px] md:text-[10px] font-bold tracking-[0.4em] uppercase text-black/40">Consultoria Virtual</span>
               <Info size={16} className="text-black/20" />
             </header>
 
+            {/* AREA DE MENSAGENS: Agora com min-h-full e flex-grow */}
             <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 bg-[#FCFDFD] scroll-smooth">
-              <AnimatePresence>
-                {messages.map((m) => (
-                  <motion.div
-                    key={m.id}
-                    className={cn('flex gap-3 md:gap-4 msg-group', m.role === 'user' ? 'flex-row-reverse' : 'flex-row')}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    <div className={cn(
-                        'w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border shrink-0 overflow-hidden',
-                        m.role === 'assistant' ? 'bg-white border-black/5' : 'bg-black text-[#98FB98] border-black'
-                      )}>
-                      {m.role === 'assistant' ? (
-                        <img src="/yvone_assist.png" alt="Assistente" className="w-full h-full object-cover" />
-                      ) : (
-                        <User size={18} />
-                      )}
-                    </div>
-
-                    <div className={cn(
-                        'max-w-[88%] md:max-w-[80%] p-4 md:p-6 rounded-[1.5rem] md:rounded-[1.8rem] text-sm leading-relaxed shadow-sm break-words',
-                        m.role === 'assistant' ? 'bg-white border border-black/5 text-slate-700 rounded-tl-none' : 'bg-black text-white rounded-tr-none'
-                    )}>
-                      <div className={cn("prose prose-sm max-w-none", m.role === 'user' ? "prose-invert text-white" : "prose-slate")}>
-                        <Markdown>{m.content}</Markdown>
+              <div className="flex flex-col gap-6 min-h-full">
+                <AnimatePresence>
+                  {messages.map((m) => (
+                    <motion.div
+                      key={m.id}
+                      className={cn('flex gap-3 md:gap-4 msg-group', m.role === 'user' ? 'flex-row-reverse' : 'flex-row')}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      <div className={cn(
+                          'w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border shrink-0 overflow-hidden',
+                          m.role === 'assistant' ? 'bg-white border-black/5' : 'bg-black text-[#98FB98] border-black'
+                        )}>
+                        {m.role === 'assistant' ? (
+                          <img src="/yvone_assist.png" alt="Assistente" className="w-full h-full object-cover" />
+                        ) : (
+                          <User size={18} />
+                        )}
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
 
-                {isTyping && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex gap-3 md:gap-4 flex-row">
-                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border bg-white border-black/5 shrink-0 overflow-hidden">
-                      <img src="/yvone_assist.png" alt="Assistente" className="w-full h-full object-cover opacity-50 animate-pulse" />
-                    </div>
-                    <div className="bg-white border border-black/5 p-4 md:p-6 rounded-[1.5rem] rounded-tl-none shadow-sm">
-                      <p className="text-xs md:text-sm text-slate-500 italic">Dra. Maria Yvone está elaborando...</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              <div ref={messagesEndRef} />
+                      <div className={cn(
+                          'max-w-[88%] md:max-w-[80%] p-4 md:p-6 rounded-[1.5rem] md:rounded-[1.8rem] text-sm leading-relaxed shadow-sm break-words',
+                          m.role === 'assistant' ? 'bg-white border border-black/5 text-slate-700 rounded-tl-none' : 'bg-black text-white rounded-tr-none'
+                      )}>
+                        <div className={cn("prose prose-sm max-w-none", m.role === 'user' ? "prose-invert text-white" : "prose-slate")}>
+                          <Markdown>{m.content}</Markdown>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+
+                  {isTyping && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex gap-3 md:gap-4 flex-row">
+                      <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border bg-white border-black/5 shrink-0 overflow-hidden">
+                        <img src="/yvone_assist.png" alt="Assistente" className="w-full h-full object-cover opacity-50 animate-pulse" />
+                      </div>
+                      <div className="bg-white border border-black/5 p-4 md:p-6 rounded-[1.5rem] rounded-tl-none shadow-sm">
+                        <p className="text-xs md:text-sm text-slate-500 italic">Dra. Maria Yvone está elaborando...</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <div ref={messagesEndRef} className="h-4 shrink-0" />
+              </div>
             </div>
 
-            <div className="p-4 md:p-8 bg-white border-t border-black/[0.03]">
+            <div className="p-4 md:p-8 bg-white border-t border-black/[0.03] shrink-0">
               <div className="flex flex-wrap gap-2 mb-4">
                 {quickActions.map((action) => (
                   <button
