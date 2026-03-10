@@ -2,43 +2,47 @@ import { ExternalLink, BookOpen, ShieldCheck, Scale, FileText, Briefcase, AlertT
 
 export default function ResourcesSection() {
   const resources = [
-    { title: 'NR-17 - Ergonomia', icon: <BookOpen />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-17-nr-17' },
-    { title: 'NR-32 - Saúde em Serviços', icon: <ShieldCheck />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-32-nr-32' },
-    { title: 'CLT - Leis do Trabalho', icon: <Scale />, url: 'https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm' },
-    { title: 'NR-06 - EPI', icon: <AlertTriangle />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-6-nr-6' },
-    { title: 'NR-09 - Riscos', icon: <FileText />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-9-nr-9' },
-    { title: 'NR-07 - PCMSO', icon: <Briefcase />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-7-nr-7' }
+    { title: 'NR-17 - Ergonomia', icon: <BookOpen size={20} />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-17-nr-17' },
+    { title: 'NR-32 - Saúde em Serviços', icon: <ShieldCheck size={20} />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-32-nr-32' },
+    { title: 'CLT - Leis do Trabalho', icon: <Scale size={20} />, url: 'https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm' },
+    { title: 'NR-06 - EPI', icon: <AlertTriangle size={20} />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-6-nr-6' },
+    { title: 'NR-09 - Riscos', icon: <FileText size={20} />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-9-nr-9' },
+    { title: 'NR-07 - PCMSO', icon: <Briefcase size={20} />, url: 'https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-7-nr-7' }
   ];
 
   return (
-    <section id="recursos" className="py-24 bg-[#FDFCFB]">
-      <div className="max-w-6xl mx-auto px-8">
+    <section id="recursos" className="py-16 md:py-20 bg-[#FDFCFB]">
+      <div className="max-w-5xl mx-auto px-6 md:px-8">
         
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-slate-700 mb-3 uppercase tracking-tighter italic">Recursos Técnicos</h2>
-          <div className="h-[2px] w-20 bg-[#98FB98] mx-auto rounded-full mb-4"></div>
-          <p className="text-[10px] text-slate-400 uppercase tracking-[0.4em] font-light">Normas e Fundamentos da Saúde</p>
+        <div className="text-center mb-12">
+          <h2 className="text-2xl font-bold text-slate-700 mb-2 uppercase tracking-tighter italic">Recursos Técnicos</h2>
+          <div className="h-[2px] w-16 bg-[#98FB98] mx-auto rounded-full mb-3"></div>
+          <p className="text-[9px] text-slate-400 uppercase tracking-[0.3em] font-light">Normas e Fundamentos da Saúde</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {resources.map((res, i) => (
             <a 
               key={i} 
               href={res.url} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="group bg-white border border-[#98FB98]/30 rounded-[3rem] p-12 transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(152,251,152,0.15)] hover:border-[#98FB98] flex flex-col items-center text-center"
+              // Reduzi o padding de p-12 para p-6 e arredondamento para rounded-[2rem]
+              className="group bg-white border border-[#98FB98]/20 rounded-[2rem] p-6 md:p-8 transition-all duration-500 shadow-[0_5px_15px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_30px_rgba(152,251,152,0.1)] hover:border-[#98FB98]/50 flex flex-col items-center text-center h-full justify-between"
             >
-              <div className="w-16 h-16 bg-[#F7FAF9] flex items-center justify-center mb-8 text-[#4A7C71] group-hover:bg-[#98FB98]/20 transition-colors shadow-inner rounded-[1.5rem]">
-                {res.icon}
+              <div>
+                {/* Ícone menor e caixa do ícone reduzida */}
+                <div className="w-12 h-12 bg-[#F7FAF9] flex items-center justify-center mb-5 text-[#4A7C71] group-hover:bg-[#98FB98]/20 transition-colors shadow-inner rounded-xl mx-auto">
+                  {res.icon}
+                </div>
+
+                <h3 className="text-[10px] md:text-[11px] font-bold text-slate-700 uppercase tracking-widest mb-4 group-hover:text-black px-1 leading-snug">
+                  {res.title}
+                </h3>
               </div>
 
-              <h3 className="text-[12px] font-bold text-slate-700 uppercase tracking-widest mb-6 group-hover:text-black px-2 leading-relaxed">
-                {res.title}
-              </h3>
-
-              <div className="flex items-center gap-2 text-[9px] font-bold text-[#98FB98] uppercase tracking-[0.2em] border-t border-slate-50 pt-6 w-full justify-center group-hover:border-[#98FB98]/20">
-                Acessar <ExternalLink size={12} />
+              <div className="flex items-center gap-2 text-[8px] font-bold text-[#4A7C71]/50 group-hover:text-[#4A7C71] uppercase tracking-[0.2em] border-t border-slate-50 pt-4 w-full justify-center group-hover:border-[#98FB98]/20 transition-colors">
+                Acessar <ExternalLink size={10} className="text-[#98FB98]" />
               </div>
             </a>
           ))}

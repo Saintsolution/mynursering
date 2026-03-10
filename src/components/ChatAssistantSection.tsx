@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Activity, Info } from 'lucide-react';
+import { Send, User, Activity, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Markdown from 'react-markdown';
 import { cn } from '../lib/utils';
@@ -73,14 +73,23 @@ export default function ChatAssistantSection() {
     setDicaAtual(sorteio);
   }, []);
 
+  // Lógica de Scroll Inteligente: Foca no topo da nova mensagem da assistente
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 1) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.role === 'assistant') {
+        const containers = document.querySelectorAll('.msg-group');
+        const last = containers[containers.length - 1];
+        if (last) last.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   }, [messages, isTyping]);
 
   useEffect(() => {
     const textarea = textareaRef.current;
     if (!textarea) return;
-
     textarea.style.height = '0px';
     const nextHeight = Math.min(textarea.scrollHeight, 140);
     textarea.style.height = `${nextHeight}px`;
@@ -103,16 +112,13 @@ export default function ChatAssistantSection() {
 
     try {
       const response = await getChatResponse(userText, history);
-
       const assistantMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: response,
         timestamp: new Date(),
       };
-
       setMessages((prev) => [...prev, assistantMsg]);
-
       setHistory((prev) => [
         ...prev,
         { role: 'user', content: userText },
@@ -123,136 +129,94 @@ export default function ChatAssistantSection() {
     }
   };
 
-  const quickActions = [
-    'Postura Banho no Leito',
-    'Resumo NR-17',
-    'Riscos NR-32',
-  ];
+  const quickActions = ['Postura Banho no Leito', 'Resumo NR-17', 'Riscos NR-32'];
 
   return (
-    <section id="assistente" className="py-16 md:py-24 bg-[#FDFCFB]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="assistente" className="py-12 md:py-24 bg-[#FDFCFB]">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="w-full lg:w-80 space-y-6">
-            <div className="bg-white border border-[#98FB98]/30 rounded-[3rem] shadow-[0_10px_30px_rgba(0,0,0,0.03)] relative overflow-hidden h-[30rem] flex flex-col justify-end">
+            <div className="bg-white border border-[#98FB98]/30 rounded-[2.5rem] md:rounded-[3rem] shadow-[0_10px_30px_rgba(0,0,0,0.03)] relative overflow-hidden h-[20rem] md:h-[30rem] flex flex-col justify-end">
               <div
                 className="absolute inset-0 z-0 bg-cover bg-center"
-                style={{
-                  backgroundImage: "url('/face_yvone.png')",
-                  opacity: 0.35,
-                }}
+                style={{ backgroundImage: "url('/face_yvone.png')", opacity: 0.35 }}
               />
-
-              <div className="relative z-10 p-8 bg-gradient-to-t from-white via-white/80 to-transparent pt-12">
+              <div className="relative z-10 p-6 md:p-8 bg-gradient-to-t from-white via-white/80 to-transparent pt-12">
                 <div className="flex items-center gap-3 mb-3">
-  <div className="flex items-center justify-center">
-  <img
-    src="/logo_enf.png"
-    alt="Logo Enfermagem"
-    className="w-12 h-12 object-contain drop-shadow-sm"
-  />
-</div>
-
-                  <h3 className="text-xl font-bold text-slate-800 uppercase tracking-tighter">
-                    Maria Yvone
-                  </h3>
+                  <img src="/logo_enf.png" alt="Logo Enfermagem" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
+                  <h3 className="text-lg md:text-xl font-bold text-slate-800 uppercase tracking-tighter">Maria Yvone</h3>
                 </div>
-
-                <p className="text-[11px] leading-relaxed text-slate-600 font-bold uppercase tracking-widest">
-                  Inspiradora da Jornada
-                </p>
+                <p className="text-[10px] md:text-[11px] leading-relaxed text-slate-600 font-bold uppercase tracking-widest">Inspiradora da Jornada</p>
               </div>
             </div>
 
-            <div className="bg-[#D9EAE6] p-6 rounded-[3rem] border border-[#98FB98]/30 relative overflow-hidden">
+            <div className="bg-[#D9EAE6] p-6 rounded-[2.5rem] md:rounded-[3rem] border border-[#98FB98]/30 relative overflow-hidden">
               <div className="relative z-10">
-                <p className="text-[10px] font-bold text-[#4A7C71] uppercase tracking-widest mb-2">
-                  Dica da Doutora
-                </p>
-
-                <p className="text-xs leading-relaxed text-[#2D4F48] font-medium italic">
-                  "{dicaAtual}"
-                </p>
+                <p className="text-[10px] font-bold text-[#4A7C71] uppercase tracking-widest mb-2">Dica da Doutora</p>
+                <p className="text-xs leading-relaxed text-[#2D4F48] font-medium italic">"{dicaAtual}"</p>
               </div>
-
               <Activity className="absolute -bottom-2 -right-2 w-16 h-16 text-[#4A7C71]/10" />
             </div>
           </aside>
 
-          <div className="flex-1 flex flex-col bg-white border border-[#98FB98]/30 rounded-[3rem] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] h-[70vh] md:h-[700px]">
-            <header className="p-6 border-b border-black/[0.03] flex items-center justify-between">
-              <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-black/40">
-                Consultoria Virtual
-              </span>
-
+          <div className="flex-1 flex flex-col bg-white border border-[#98FB98]/30 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] h-[85vh] md:h-[700px] mx-1 md:mx-0">
+            <header className="p-5 md:p-6 border-b border-black/[0.03] flex items-center justify-between bg-white/50 backdrop-blur-sm">
+              <span className="text-[9px] md:text-[10px] font-bold tracking-[0.4em] uppercase text-black/40">Consultoria Virtual</span>
               <Info size={16} className="text-black/20" />
             </header>
 
-            <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 bg-[#FCFDFD] scroll-smooth">
+            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 bg-[#FCFDFD] scroll-smooth">
               <AnimatePresence>
                 {messages.map((m) => (
                   <motion.div
                     key={m.id}
+                    className={cn('flex gap-3 md:gap-4 msg-group', m.role === 'user' ? 'flex-row-reverse' : 'flex-row')}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={cn(
-                      'flex gap-4',
-                      m.role === 'user' ? 'flex-row-reverse' : 'flex-row'
-                    )}
                   >
-                    <div
-                      className={cn(
-                        'w-10 h-10 rounded-full flex items-center justify-center border shrink-0',
-                        m.role === 'assistant'
-                          ? 'bg-white border-black/5 text-black'
-                          : 'bg-black text-[#98FB98] border-black'
+                    <div className={cn(
+                        'w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border shrink-0 overflow-hidden',
+                        m.role === 'assistant' ? 'bg-white border-black/5' : 'bg-black text-[#98FB98] border-black'
+                      )}>
+                      {m.role === 'assistant' ? (
+                        <img src="/yvone_assist.png" alt="Assistente" className="w-full h-full object-cover" />
+                      ) : (
+                        <User size={18} />
                       )}
-                    >
-                      {m.role === 'assistant' ? <Bot size={20} /> : <User size={20} />}
                     </div>
 
-                    <div
-                      className={cn(
-                        'max-w-[85%] md:max-w-[80%] p-4 md:p-6 rounded-[1.8rem] text-sm leading-relaxed shadow-sm break-words',
-                        m.role === 'assistant'
-                          ? 'bg-white border border-black/5 text-slate-700 rounded-tl-none'
-                          : 'bg-black text-white rounded-tr-none'
-                      )}
-                    >
-                      <Markdown>{m.content}</Markdown>
+                    <div className={cn(
+                        'max-w-[88%] md:max-w-[80%] p-4 md:p-6 rounded-[1.5rem] md:rounded-[1.8rem] text-sm leading-relaxed shadow-sm break-words',
+                        m.role === 'assistant' ? 'bg-white border border-black/5 text-slate-700 rounded-tl-none' : 'bg-black text-white rounded-tr-none'
+                    )}>
+                      <div className={cn("prose prose-sm max-w-none", m.role === 'user' ? "prose-invert text-white" : "prose-slate")}>
+                        <Markdown>{m.content}</Markdown>
+                      </div>
                     </div>
                   </motion.div>
                 ))}
 
                 {isTyping && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex gap-4 flex-row"
-                  >
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center border bg-white border-black/5 text-black shrink-0">
-                      <Bot size={20} />
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex gap-3 md:gap-4 flex-row">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center border bg-white border-black/5 shrink-0 overflow-hidden">
+                      <img src="/yvone_assist.png" alt="Assistente" className="w-full h-full object-cover opacity-50 animate-pulse" />
                     </div>
-
-                    <div className="bg-white border border-black/5 p-4 md:p-6 rounded-[1.8rem] rounded-tl-none shadow-sm flex items-center">
-                      <p className="text-sm text-slate-500 italic">
-                        Maria Yvone está pensando...
-                      </p>
+                    <div className="bg-white border border-black/5 p-4 md:p-6 rounded-[1.5rem] rounded-tl-none shadow-sm">
+                      <p className="text-xs md:text-sm text-slate-500 italic">Dra. Maria Yvone está elaborando...</p>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
-
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-6 md:p-8 bg-white border-t border-black/[0.03]">
-              <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
+            <div className="p-4 md:p-8 bg-white border-t border-black/[0.03]">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {quickActions.map((action) => (
                   <button
                     key={action}
                     onClick={() => setInput(action)}
-                    className="text-[9px] font-bold tracking-widest uppercase border border-black/10 px-4 py-2 rounded-full hover:border-black transition-all text-slate-500 hover:text-black"
+                    className="text-[8px] md:text-[9px] font-bold tracking-widest uppercase border border-black/10 px-3 py-2 rounded-full hover:border-black transition-all text-slate-500 hover:text-black"
                   >
                     {action}
                   </button>
@@ -270,22 +234,19 @@ export default function ChatAssistantSection() {
                       handleSend();
                     }
                   }}
-                  placeholder="Digite sua dúvida..."
+                  placeholder="Sua dúvida técnica..."
                   rows={1}
-                  className="w-full resize-none overflow-y-auto bg-[#F2F4F5] border-none rounded-2xl py-3 pr-16 pl-6 text-sm outline-none font-medium leading-relaxed max-h-[140px]"
+                  className="w-full resize-none overflow-y-auto bg-[#F2F4F5] border-none rounded-2xl py-3 pr-14 pl-5 text-sm outline-none font-medium leading-relaxed max-h-[120px]"
                 />
-
                 <button
                   onClick={handleSend}
                   disabled={!input.trim()}
                   className={cn(
-                    'absolute right-2 bottom-2 p-3 rounded-full transition-all',
-                    input.trim()
-                      ? 'bg-black text-[#98FB98] hover:opacity-80'
-                      : 'bg-black/20 text-white/60 cursor-not-allowed'
+                    'absolute right-1.5 bottom-1.5 p-2.5 rounded-full transition-all',
+                    input.trim() ? 'bg-black text-[#98FB98]' : 'bg-black/10 text-white/40'
                   )}
                 >
-                  <Send size={18} />
+                  <Send size={16} />
                 </button>
               </div>
             </div>

@@ -42,11 +42,14 @@ function App() {
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
+    if (element) {
+        // Ajuste para garantir que abra no TOPO da seção
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9F8] font-sans text-black">
+    <div className="min-h-screen bg-[#F8F9F8] font-sans text-black overflow-x-hidden">
       <nav
         className={`fixed top-0 left-0 right-0 z-50 bg-black transition-all duration-500 ${
           isScrolled ? 'py-4 shadow-xl' : 'py-8'
@@ -56,11 +59,11 @@ function App() {
           <div className="flex items-center justify-between">
             {/* FOTO ESQUERDA - some no celular */}
             <div className="hidden md:flex w-12 justify-start">
-             <img
-  src="/face_yvone.png"
-  alt="Maria Yvone"
-  className="w-16 h-16 object-cover rounded-full shadow-md ring-2 ring-[#98FB98]/40 opacity-90"
-/>
+              <img
+                src="/face_yvone.png"
+                alt="Maria Yvone"
+                className="w-16 h-16 object-cover rounded-full shadow-md ring-2 ring-[#98FB98]/40 opacity-90"
+              />
             </div>
 
             {/* CENTRO */}
@@ -92,29 +95,31 @@ function App() {
             {/* LOGO DIREITA - some no celular */}
             <div className="hidden md:flex w-12 justify-end">
               <img
-  src="/logo_enf.png"
-  alt="Logo enfermagem"
-  className="w-14 h-14 object-contain drop-shadow-md opacity-90"
-/>
+                src="/logo_enf.png"
+                alt="Logo enfermagem"
+                className="w-14 h-14 object-contain drop-shadow-md opacity-90"
+              />
             </div>
           </div>
         </div>
       </nav>
 
       <main className="pt-40 md:pt-64">
-        <section id="apresentacao">
+        {/* Adicionado padding-top em cada seção para o scroll não "bater" no menu fixo */}
+        <section id="apresentacao" className="scroll-mt-32">
           <PresentationSection />
         </section>
 
-        <section id="recursos">
+        <section id="recursos" className="scroll-mt-32">
           <ResourcesSection />
         </section>
 
-        <section id="assistente">
+        {/* Ajuste de área para o Assistente no Mobile */}
+        <section id="assistente" className="scroll-mt-32 min-h-[600px] md:min-h-0">
           <ChatAssistantSection />
         </section>
 
-        <section id="memorias">
+        <section id="memorias" className="scroll-mt-32">
           <MemoriesSection />
         </section>
       </main>
@@ -125,7 +130,8 @@ function App() {
             "A enfermagem é a arte de cuidar, e a ergonomia é a ciência de proteger quem cuida."
           </span>
 
-          <p className="text-[9px] tracking-[0.4em] text-white/30 uppercase mt-4">
+          {/* Correção do vazamento do nome no mobile: adicionado break-words e ajuste de tamanho */}
+          <p className="text-[8px] md:text-[10px] tracking-[0.2em] md:tracking-[0.4em] text-white/30 uppercase mt-4 max-w-full break-words px-2">
             © 2026 MYNursering - Dra. Maria Yvone Chaves Mauro
           </p>
         </div>
