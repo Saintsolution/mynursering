@@ -35,7 +35,7 @@ export default function PresentationSection() {
                   Pioneirismo e Excelência Acadêmica
                 </h4>
                 <p>
-                  Nascida na região ribeirinha de Ituquí (PA), a Dra. Maria Yvone trilhou um caminho de profunda dedicação ao saber. Tornou-se <strong>Livre Docente e Professora Titular de Cadeira na UFRJ</strong>, instituição onde consolidou sua base científica. Sua expertise a levou a ser convidada pela <strong>UERJ</strong> para um desafio histórico: atuar como uma das <strong>criadoras e coordenadoras do projeto de Mestrado e Doutorado</strong>, onde também exerceu o cargo de Professora Titular, moldando o futuro da pós-graduação em enfermagem no estado.
+                  Nascida na região ribeirinha de Ituquí - Santarém - (PA), a Dra. Maria Yvone trilhou um caminho de profunda dedicação ao saber. Tornou-se <strong>Livre Docente e Professora Titular de Cadeira na UFRJ</strong>, instituição onde consolidou sua base científica. Sua expertise a levou a ser convidada pela <strong>UERJ</strong> para um desafio histórico: atuar como uma das <strong>criadoras e coordenadoras do projeto de Mestrado e Doutorado</strong>, onde também exerceu o cargo de Professora Titular, moldando o futuro da pós-graduação em enfermagem no estado.
                 </p>
               </div>
 
