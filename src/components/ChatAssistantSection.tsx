@@ -55,7 +55,7 @@ export default function ChatAssistantSection() {
     {
       id: '1',
       role: 'assistant',
-      content: 'Olá! Sou a **Maria Yvone Assistente**. Como posso ajudar em sua jornada técnica hoje?',
+      content: 'Olá! Sou a Dra. Prof. Enf. **Maria Yvone**. Como posso ajudar em sua jornada técnica hoje?',
       timestamp: new Date(),
     }
   ]);

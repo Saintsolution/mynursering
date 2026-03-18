@@ -1,13 +1,6 @@
-import OpenAI from "openai";
-
-let openai: OpenAI | null = null;
 let systemInstruction = "";
 
-export function initializeAssistant(apiKey: string, instruction: string) {
-  openai = new OpenAI({
-    apiKey: apiKey,
-    dangerouslyAllowBrowser: true 
-  });
+export function initializeAssistant(_apiKey: string, instruction: string) {
   systemInstruction = instruction;
 }
 
@@ -15,22 +8,30 @@ export async function getChatResponse(
   userMessage: string,
   history: { role: "user" | "assistant"; content: string }[]
 ): Promise<string> {
-  if (!openai) return "Assistente não inicializado.";
-
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: systemInstruction },
-        ...history,
-        { role: "user", content: userMessage },
-      ],
-      temperature: 0.7,
+    const response = await fetch("/.netlify/functions/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userMessage,
+        history,
+        systemInstruction,
+      }),
     });
 
-    return response.choices[0].message.content || "Sem resposta.";
+    const data = await response.json();
+    console.log("RESPOSTA DA FUNCTION:", data);
+
+    if (!response.ok) {
+      console.error("Erro da function:", data);
+      return `Erro: ${data?.error || data?.reply || "falha interna"}`;
+    }
+
+    return data?.reply || "Sem resposta.";
   } catch (error: any) {
-    console.error("Erro OpenAI:", error);
+    console.error("Erro ao chamar a function:", error);
     return "A Dra. Maria Yvone teve um pequeno contratempo.";
   }
 }
